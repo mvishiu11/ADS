@@ -1,0 +1,17 @@
+# Ignore executables
+*.exe
+
+# Ignore Visual Studio temporary files
+*.obj
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*.ncb
+*.suo
+*.tlb
+
+# Ignore text files (since I should not share inputs in Advent of Code)
+*.txt
