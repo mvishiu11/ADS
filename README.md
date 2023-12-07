@@ -1,15 +1,23 @@
-# Algorithms and Data Structures 
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#algorithms-and-data-structures-)
+
+# ➤ Algorithms and Data Structures 
 This repository contains the implementation of some algorithms and data structures in C++, I have done for my Algorithms and Data Structures 2023/24 course at the Warsaw University of Technology. It is meant as a future reference for me and a learning resource for others. The code is not meant to be used in production. It is not optimized and it does not handle all possible edge cases. The code is meant to be used for learning purposes only. 
 
 `WARNING: The code is not commented and this README is not complete as of yet and partly auto-generated. For more accurate information about programs, please refer to the corresponding pdfs of the tasks, that are provided.`
 
-## Table of Contents
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+## ➤ Table of Contents
 - [Lab0](#lab0)
   - [Task 1 - Longest Increasing Subsequence (LIS)](#task-1---longest-increasing-subsequence-lis)
   - [Task 2 - Implementation of a ArrayStack data structure](#task-2---implementation-of-a-arraystack-data-structure)
 
 
-## Lab0
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#lab0)
+
+## ➤ Lab0
 ### Task 1 - Longest Increasing Subsequence (LIS)
 #### Description
 The task is to find the longest increasing subsequence of a given sequence of numbers. The subsequence does not have to be continuous. The program should print the length of the longest increasing subsequence and the subsequence itself. If there are multiple solutions, the program should print the one that is lexicographically smallest. The program should be implemented in O(n^2) time complexity and O(n) space complexity. Full description can be found in the corresponding [pdf](Lab0/LIS%20(longest%20increasing%20subsequence)/LIS.pdf).
