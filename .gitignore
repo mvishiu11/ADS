@@ -13,5 +13,9 @@
 *.suo
 *.tlb
 
-# Ignore text files (since I should not share inputs in Advent of Code)
+# Ignore text files (since I should not share inputs in the repo)
 *.txt
+
+# Ignore settings.json
+settings.json
+
