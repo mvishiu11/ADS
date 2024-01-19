@@ -25,7 +25,7 @@ void printTable(int ** A, int n, int W)
 	cout << "******************************\n";
 }
 
-// function allocating memory for amn int table of size (n+1) x (W+1)
+// function allocating memory for int table of size (n+1) x (W+1)
 void allocate_memory_for_matrix(int** &A, int n, int W)
 {
 	A = new int* [n+1];
@@ -47,18 +47,18 @@ void free_memory_for_matrix(int** A, int n)
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
-void solve(int* s, int * v, int ** A, int n, int W)
-{	
-	for (int i = 0; i <= n; i++) { 
-        for (int j = 0; j <= W; j++) { 
-            if (i == 0 || j == 0) 
-                A[i][j] = 0; 
-            else if (s[i - 1] <= j) 
-                A[i][j] = max(v[i - 1] 
-                                  + A[i - 1][j - s[i - 1]], 
-                              A[i - 1][j]); 
-            else
-                A[i][j] = A[i - 1][j]; 
+void solve(int* s, int * v, int ** A, int n, int W) // s - sizes, v - values, A - table, n - number of items, W - knapsack capacity
+{	// T(n) = O(n * W)
+	for (int i = 0; i <= n; i++) {			// O(n), iterate over all rows
+        for (int j = 0; j <= W; j++) { 		// O(W), iterate over all columns
+            if (i == 0 || j == 0)			// Init first row and column with 0s
+                A[i][j] = 0;			
+            else if (s[i - 1] <= j)							    // If item fits in knapsack
+                A[i][j] = max(									// Take the maximum of two cases: 								 
+					v[i - 1] + A[i - 1][j - s[i - 1]],          // (1) nth item included 
+					A[i - 1][j]);   					        // (2) nth item not included	
+            else                                                // If item doesn't fit in knapsack
+                A[i][j] = A[i - 1][j]; 							// Don't take it
         } 
     } 
 }

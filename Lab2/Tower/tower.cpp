@@ -42,19 +42,21 @@ int getHighestTower(vector<Box>* boxes, vector<int>* highestTower)
     int n = (boxes->size());
 	/* adding an element to the back of the vector pointed by highestTower */
 	highestTower->push_back((*boxes)[0].h);
-	/* write all the necessary code here */
+
 	int maxHeight = 0;
 
-	for (int i = 1; i < n; i++) {
-		highestTower->push_back((*boxes)[i].h);
-		for (int j = 0; j < i; j++) {
-			if ((*boxes)[i] <= (*boxes)[j]) {
-				(*highestTower)[i] = max((*highestTower)[i], ((*highestTower)[j] + (*boxes)[i].h));
+	for (int i = 1; i < n; i++) {							// O(n^2), basically LIS all over again
+		highestTower->push_back((*boxes)[i].h);				// Set initial value to first value possible	
+		for (int j = 0; j < i; j++) {						// For each box in range	
+			if ((*boxes)[i] <= (*boxes)[j]) {				// If the box is smaller than the one before it
+				(*highestTower)[i] = max(					// Set the height of the tower to the max of:
+					(*highestTower)[i], 					// 1. The its current height
+					((*highestTower)[j] + (*boxes)[i].h));  // 2. The height of the tower before it + the height of the box
 			}
 		}
 	}
 
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) {							// O(n), find the max height by checking all heights
 		if ((*highestTower)[i] > maxHeight) {
 			maxHeight = (*highestTower)[i];
 		}

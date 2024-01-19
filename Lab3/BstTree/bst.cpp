@@ -49,62 +49,62 @@ void BstTree::deleteNode(Node *curr)
     }
 }
 
-int BstTree::bstInsert(int _val)
+int BstTree::bstInsert(int _val)            // O(log n), where n is the number of nodes in the tree (thus log n is the height of the tree)
 {
-    if (root == NULL)
+    if (root == NULL)					   // if the tree is empty
     {
-        root = new Node();
+        root = new Node();                 // set the root to the node we want to insert 
         root->val = _val;
         root->left = root->right = NULL;
-        return 1;
+        return 1;                        
     }
 
-    Node *current = root;
-    Node *parent = NULL;
+    Node *current = root;                  // otherwise, we start from the root
+    Node *parent = NULL;				   // and we keep track of the parent of the current node, null for root
 
-    while (current != NULL)
+    while (current != NULL)				   // we traverse the tree until we find the right place to insert the node
     {
-        if (_val == current->val)
+        if (_val == current->val)          // if the value is already in the tree, we don't insert it
         {
             return 0;
         }
-        parent = current;
+        parent = current;                  // otherwise, we keep track of the parent of the current node
 
-        if (_val < current->val)
+        if (_val < current->val)           // and we move to the left or right child of the current node, depending on the value we want to insert
             current = current->left;
         else
             current = current->right;
     }
 
-    Node *newNode = new Node();
+    Node *newNode = new Node();			// when we find the right place, we create a new node
     newNode->val = _val;
     newNode->left = newNode->right = NULL;
 
-    if (_val < parent->val)
-        parent->left = newNode;
+    if (_val < parent->val)             // and we insert it as a child of the parent node
+        parent->left = newNode;         // on the left if its value is smaller than parent value 
     else
-        parent->right = newNode;
+        parent->right = newNode;        // or on the right otherwise
 
     return 1;
 }
 
-int BstTree::bstSearch(int _val)
+int BstTree::bstSearch(int _val)			// O(log n), where n is the number of nodes in the tree (thus log n is the height of the tree)
 {
-    Node *current = root;
+    Node *current = root;                   // we start from the root
 
-    while (current != NULL)
+    while (current != NULL)				    // and we traverse the tree until we find the value we are looking for (or end of the tree)
     {
-        if (_val == current->val)
+        if (_val == current->val)		    // if we find it, we return 1
         {
             return 1;
         }
-        else if (_val < current->val)
+        else if (_val < current->val)	    // otherwise, we move to the left or right child of the current node, depending on the value we are looking for
             current = current->left;
         else
             current = current->right;
     }
 
-    return 0;
+    return 0;                               // if we didn't find it, return 0
 }
 
 void BstTree::preOrderSeq()
@@ -112,12 +112,12 @@ void BstTree::preOrderSeq()
     preOrder(root);
 }
 
-void BstTree::preOrder(Node *curr)
+void BstTree::preOrder(Node *curr)     // O(n), where n is the number of nodes in the tree
 {
     if (curr != NULL)
     {
-        cout << curr->val << " ";
-        preOrder(curr->left);
+        cout << curr->val << " ";      // we print the value of the current node
+        preOrder(curr->left);          // and then we recursively print the left and right subtrees
         preOrder(curr->right);
     }
 }
@@ -127,7 +127,7 @@ void BstTree::inOrderSeq()
     inOrder(root);
 }
 
-void BstTree::inOrder(Node *curr)
+void BstTree::inOrder(Node *curr)       // O(n), same thing as preOrder
 {
     if (curr != NULL)
     {
@@ -142,7 +142,7 @@ void BstTree::postOrderSeq()
     postOrder(root);
 }
 
-void BstTree::postOrder(Node *curr)
+void BstTree::postOrder(Node *curr)	    // O(n), same thing as preOrder
 {
     if (curr != NULL)
     {

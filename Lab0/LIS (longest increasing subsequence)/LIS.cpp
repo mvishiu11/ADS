@@ -23,13 +23,13 @@ void printTable(int * t, int n)
 }
 
 
-void computeLIS(int * t, int * lis, int n)
+void computeLIS(int * t, int * lis, int n) // T(n) = O(n^2)
 {
 	lis[0] = 1;
-	for (int i = 1; i < n; i++) {
-		lis[i] = 1;
-		for (int j = 0; j < i; j++)
-			if (t[i] > t[j] && lis[i] < lis[j] + 1)
+	for (int i = 1; i < n; i++) {		   // O(n) iterations, iterate over all elements of t
+		lis[i] = 1;						   // Set initial value to min, ergo 1 in this case	
+		for (int j = 0; j < i; j++)						// O(n)	iterations in the worst case (for the last iter), iterate over elements of t smaller than i
+			if (t[i] > t[j] && lis[i] < lis[j] + 1)		// O(1) comparison, if num at t[i] is bigger than that at t[j] and its LIS is smaller, rectify that
 				lis[i] = lis[j] + 1;
 	}
 }

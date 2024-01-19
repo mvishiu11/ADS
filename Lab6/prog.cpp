@@ -1,149 +1,105 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
-struct Party {
-    int id;
-    int votes;
-    int seats;
-    double quotient;
-
-    bool operator<(const Party& other) const {
-        if (quotient != other.quotient)
-            return quotient < other.quotient;
-        return id < other.id;
-    }
-};
-
-struct CompareQuotient {
-    bool operator()(const Party& a, const Party& b) {
-        return a.quotient < b.quotient;
-    }
-};
-
-class PartyHeap
+class Party
 {
     public:
-    Party* heap;
-    int size;
-    int capacity;
+	int number;
+	int votes;
+	double quotient;
 
-    PartyHeap(int capacity) {
-        this->capacity = capacity;
-        this->size = 0;
-        this->heap = new Party[capacity];
-    }
-
-    int parent(int i) { return (i - 1) / 2; }
-
-    void BuildHeap(Party* arr, int n) {
-        size = n;
-        heap = arr;
-
-        for (int i = n / 2 - 1; i >= 0; i--)
-            heapify(i);
-    }
-
-    void insert(Party party) {
-        if (size == capacity) {
-            cout << "Heap is full" << endl;
-            return;
-        }
-
-        heap[size] = party;
-        size++;
-
-        int i = size - 1;
-        while (i != 0 && heap[parent(i)] < heap[i]) {
-            swap(heap[i], heap[parent(i)]);
-            i = parent(i);
-        }
-    }
-
-    void heapify(int i) {
-        int l = 2 * i + 1;
-        int r = 2 * i + 2;
-
-        int largest = i;
-        if (l < size && heap[l] < heap[largest])
-            largest = l;
-        if (r < size && heap[r] < heap[largest])
-            largest = r;
-
-        if (largest != i) {
-            swap(heap[i], heap[largest]);
-            heapify(largest);
-        }
-    }
-
-    Party extractMax() {
-        if (size <= 0)
-            return Party();
-
-        if (size == 1) {
-            size--;
-            return heap[0];
-        }
-
-        Party root = heap[0];
-        heap[0] = heap[size - 1];
-        size--;
-        heapify(0);
-
-        return root;
-    }
-
-    void print() {
-        for (int i = 0; i < size; ++i) {
-            cout << heap[i].id << " ";
-        }
-        cout << endl;
-    } 
+	bool operator<(const Party& other) const
+	{
+		if (quotient == other.quotient)
+		{
+			return number > other.number;
+		}
+		return quotient < other.quotient;
+	}
 };
 
-void distributeSeats(Party* parties, int totalSeats) {
-    PartyHeap* maxHeap = new PartyHeap(totalSeats);
-    maxHeap->BuildHeap(parties, totalSeats);
+void heapify(vector<Party>& heap, int index)
+{
+	int l_child = 2 * index + 1, r_child = 2 * index + 2;
 
-    for (int i = 0; i < totalSeats; ++i) {
-        Party party = maxHeap->extractMax();
-        
-        party.seats++;
-        party.quotient = static_cast<double>(party.votes) / (party.seats + 1);
+	if (l_child <= heap.size())
+		heapify(heap, l_child);
 
-        maxHeap->insert(party);
-        maxHeap->print();
+	if (r_child <= heap.size())
+		heapify(heap, r_child);
+
+	if (l_child < heap.size())
+	{
+		if (heap[index] < heap[l_child])
+		{
+			swap(heap[index], heap[l_child]);
+		}
+	}
+
+	if (r_child < heap.size())
+	{
+		if (heap[index] < heap[r_child])
+		{
+			swap(heap[index], heap[r_child]);
+		}
+	}
+}
+
+void allocate_seats(const vector<int>& votes, vector<int>& seats, int seat)
+{
+	vector<Party> heap;
+
+	for (int i = 0; i < votes.size(); i++)
+	{
+		heap.push_back({ i,votes[i],(double)votes[i] });
+	}
+
+	while (seat--)
+	{
+		heapify(heap, 0);
+
+		seats[heap[0].number] += 1;
+
+		heap[0].quotient = (double)heap[0].votes / (seats[heap[0].number] + 1);
+	}
+}
+
+void print_seats(const vector<int>& seats) {
+    for (const auto& seat : seats) {
+        cout << seat << " ";
     }
-    delete maxHeap;
+    cout << '\n';
 }
 
 int main() {
-    int datasets;
-    cin >> datasets;
+	int z, n, s;
+	vector<int> votes, seats;
+	cin >> z;
+	while (z--)
+	{
+		votes.clear();
+		seats.clear();
 
-    while (datasets--) {
-        int numParties, numSeats;
-        cin >> numParties >> numSeats;
+		cin >> n >> s;
 
-        Party* parties = new Party[numParties];
+		for (int i = 0; i < n; i++)
+		{
+			int val;
 
-        for (int i = 0; i < numParties; ++i) {
-            parties[i].id = i + 1;
-            cin >> parties[i].votes;
-            parties[i].seats = 0;
-            parties[i].quotient = static_cast<double>(parties[i].votes) / (parties[i].seats + 1);
-        }
+			cin >> val;
 
-        distributeSeats(parties, numSeats);
+			votes.push_back(val);
+			seats.push_back(0);
+		}
 
-        for (int i = 0; i < numParties; ++i) {
-            cout << parties[i].seats << " ";
-        }
-        cout << endl;
-    }
+		allocate_seats(votes, seats, s);
 
-    return 0;
+        print_seats(seats);
+	}
+
+	return 0;
 }
